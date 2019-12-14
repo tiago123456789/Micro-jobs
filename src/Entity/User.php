@@ -49,6 +49,18 @@ class User implements UserInterface
      */
     private $updated_at;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @var boolean
+     */
+    private $confirmed;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    private $token;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,6 +135,42 @@ class User implements UserInterface
     {
         $this->updated_at = $updated_at;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfirmed()
+    {
+        return $this->confirmed;
+    }
+
+    /**
+     * @param mixed $confirmed
+     * @return User
+     */
+    public function setConfirmed($confirmed): self
+    {
+        $this->confirmed = $confirmed;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param mixed $token
+     * @return User
+     */
+    public function setToken($token): self
+    {
+        $this->token = $token;
         return $this;
     }
 
