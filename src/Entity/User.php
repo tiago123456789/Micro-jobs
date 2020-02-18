@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity("email", message="Email must not duplicated")
  */
 class User implements UserInterface
 {
@@ -21,16 +23,19 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=80)
+     * @Assert\NotBlank(message="The field name is required!")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Assert\NotBlank(message="The field username is required!")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Is need mencionate password!")
      */
     private $password;
 

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,7 +14,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -47,4 +49,24 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * Loads the user for the given username.
+     *
+     * This method must return null if the user is not found.
+     *
+     * @param string $username
+     * @return null|UserInterface
+     */
+    public function loadUserByUsername(string $username)
+    {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select("u")
+            ->from(User::class, "u")
+            ->where("u.username = :username")
+            ->andWhere("u.confirmed = :confirmed")
+            ->setParameter(":username", $username)
+            ->setParameter(":confirmed", true)
+            ->getQuery()
+            ->getSingleResult();
+    }
 }
