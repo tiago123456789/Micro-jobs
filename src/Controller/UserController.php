@@ -12,15 +12,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/home", name="home")
-     * @param Request $request
-     * @return Response
-     */
-    public function pageHome(Request $request)
-    {
-        return new Response("Authenticated success!!!!");
-    }
 
     /**
      * @Route("/user/register")
@@ -32,6 +23,10 @@ class UserController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            var_dump($form->getData()); exit;
+        }
 
         return $this->render(
             'user/register.html.twig',

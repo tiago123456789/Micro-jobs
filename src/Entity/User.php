@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity("email", message="Email must not duplicated")
+ * @UniqueEntity("username", message="Email must not duplicated")
  */
 class User implements UserInterface
 {
